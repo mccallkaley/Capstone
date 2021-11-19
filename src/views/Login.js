@@ -28,8 +28,10 @@ export default class Login extends Component {
         const response_object = await getToken(email,password);
         this.setState({error:response_object.error})
         this.props.setToken(response_object.token)
-        this.setState({redirect:true})
-        console.log(response_object.token)
+        if (response_object.token){
+            this.setState({redirect:true})
+            console.log(response_object.token)
+        }
     };
 
     render() {
