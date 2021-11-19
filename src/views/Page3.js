@@ -6,6 +6,11 @@ export default class Page3 extends Component {
             <div>
                 page3<br/>
                 The user is {this.props.user}
+                <br/>
+                <ul>
+                {this.props.foods.map((food)=><li>{food}</li>)}
+                </ul>
+
             </div>
         )
     }
