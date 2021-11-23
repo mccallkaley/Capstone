@@ -3,6 +3,8 @@ import {Col, Row, Button} from 'react-bootstrap'
 import {getItems, getItemsByCat} from '../api/apiItems'
 import {getCategories} from '../api/apiCategory'
 import ItemCard from '../components/ItemCard'
+import {titleCase} from '../helpers'
+
 export default class Shop extends Component {
     constructor() {
         super();
@@ -91,7 +93,7 @@ export default class Shop extends Component {
                             </li>
                             {this.state.categories.map(
                                 (c)=><li key={c.id}>
-                                    <button style={styles.catButton} onClick={()=>this.handleCat(c.id)}>{c.name}</button>
+                                    <button style={styles.catButton} onClick={()=>this.handleCat(c.id)}>{titleCase(c.name)}</button>
                                 </li>
                             )}
 
