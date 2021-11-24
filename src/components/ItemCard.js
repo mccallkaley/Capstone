@@ -54,7 +54,7 @@ export default class ItemCard extends Component {
             >
               See More
             </button>
-            <Button variant="primary">Add To Cart</Button>
+            <Button variant="primary" onClick={()=>this.props.addToCart(this.props.item)}> Add To Cart</Button>
           </Card.Body>
         </Card>
       </Col>
