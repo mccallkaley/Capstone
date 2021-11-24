@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom";
 
 export default class Logout extends Component {
   componentDidMount() {
-    this.props.setToken("");
+    this.props.doLogout();
+    console.log("goodbye")
   }
 
   render() {

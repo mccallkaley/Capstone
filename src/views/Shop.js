@@ -103,7 +103,7 @@ export default class Shop extends Component {
                         {/* item section */}
                         <Row>
                             {this.state.items.slice(this.state.itemStart,this.state.itemEnd)
-                                .map((i)=><ItemCard item={i} key={i.id}/>)}
+                                .map((i)=><ItemCard addToCart={this.props.addToCart} item={i} key={i.id}/>)}
                         </Row>
                         <div className="d-flex justify-content-center">
                             <Button variant="danger" className={"me-2 " + (this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>

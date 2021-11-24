@@ -38,6 +38,7 @@ export default class NavBar extends Component {
                             <Nav.Link as={Link} to="/login">Login</Nav.Link>
                             }
                         </Nav>
+                        <span className="float-end" style={{color:'white'}}>total: ${this.props.getCartTotalPrice().toFixed(2)}, items:{this.props.getCartItemTotal()}</span>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>

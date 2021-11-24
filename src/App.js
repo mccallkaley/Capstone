@@ -29,8 +29,29 @@ export default class App extends Component {
       token: "",
       foods: [],
       isAdmin: false,
+      cart:{}
     };
   }
+
+  static getDerivedStateFromProps = (props, state) => {
+    return { 
+      token: localStorage.getItem("token"),
+      cart: localStorage.getItem("cart")? JSON.parse(localStorage.getItem("cart")):{}
+    };
+  };
+
+  componentDidMount() {
+    if (this.state.token) {
+      this.getIsAdmin();
+    }
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage",(e)=>{
+        this.setState({cart:JSON.parse(localStorage.getItem("cart"))})
+      })
+    }
+    }
+
 
   setUser = (user) => {
     this.setState({ user }, () => console.log("User is", this.state.user));
@@ -48,16 +69,6 @@ export default class App extends Component {
     
   };
 
-  static getDerivedStateFromProps = (props, state) => {
-    return { token: localStorage.getItem("token") };
-  };
-
-  componentDidMount() {
-    if (this.state.token) {
-      this.getIsAdmin();
-    }
-  }
-
   getIsAdmin=()=>{
     const isAdmin=async ()=>{
       let res=await getIsAdmin(localStorage.getItem('token'))
@@ -68,11 +79,80 @@ export default class App extends Component {
     isAdmin()
   }
 
+  doLogout=()=>{
+    console.log("Logged out")
+    localStorage.clear();
+    this.setToken('');
+    this.setState({isAdmin:false, cart:{}});
+
+  }
+
+  // cart section
+
+  // {
+  //   "Red Shoes":{name:"red shoes",desc:"the desc",price:"price", quantity:""}
+  // }
+  addToCart=(item)=>{
+    let cart = this.state.cart
+    if (cart[item.name]){
+      cart[item.name].quantity++
+    }else{
+      cart[item.name]={...item,quantity:1}
+    }
+    this.setState({cart})
+    localStorage.setItem("cart",JSON.stringify(cart))
+    alert(`Thanks for adding ${item.name} to your cart`)
+  }
+  
+  //The total number of items in the cart
+  getCartItemTotal=()=>{
+    let total=0
+    for (const item in this.state.cart){
+      total+=this.state.cart[item].quantity
+    }
+    return total
+  }
+
+  // the total price of all items in cart
+  getCartTotalPrice=()=>{
+    let total=0
+    for (const item in this.state.cart){
+      total+=this.state.cart[item].quantity*this.state.cart[item].price
+    }
+    return total
+  }
+
+  removeFromCart = (item)=>{
+    let cart=this.state.cart;
+    if (cart[item.name].quantity >1){
+      cart[item.name].quantity--
+    }else if (cart[item.name].quantity === 1){
+      delete cart[item.name]
+    }
+    this.setState({cart})
+    localStorage.setItem("cart",JSON.stringify(cart))
+    alert(`You remove ${item.name} from your cart`)
+  }
+
+  removeAllFromCart=(item)=>{
+    let cart=this.state.cart;
+    if(cart[item.name]){
+      delete cart[item.name];
+    }
+    this.setState({cart})
+    localStorage.setItem("cart",JSON.stringify(cart))
+    alert(`You remove all of ${item.name}s from your cart`)
+  }
+
+  clearCart=()=>{
+    this.setState({cart:{}})
+    localStorage.removeItem("cart")
+  }
 
   render() {
     return (
       <div>
-        <NavBar token={this.state.token} isAdmin={this.state.isAdmin}/>
+        <NavBar token={this.state.token} isAdmin={this.state.isAdmin} getCartTotalPrice={this.getCartTotalPrice} getCartItemTotal={this.getCartItemTotal} />
         <Container>
           <Switch> 
             <ProtectedRoute exact path ="/" token={this.state.token} 
@@ -84,7 +164,7 @@ export default class App extends Component {
             <ProtectedRoute exact path ="/example" token={this.state.token} 
                 render={()=><Example/>} />
             <ProtectedRoute exact path ="/shop" token={this.state.token} 
-                render={()=><Shop/>} />
+                render={()=><Shop addToCart={this.addToCart}/>} />
             <ProtectedRoute exact path ="/item/:id" token={this.state.token} 
                 render={(props)=><SingleItem {...props}/>} />
            
@@ -101,7 +181,8 @@ export default class App extends Component {
  
             <Route exact path ="/login" 
                 render={()=><Login setToken={this.setToken}/>} />
-            <ProtectedRoute exact path ="/logout" setToken={this.setToken} 
+            <ProtectedRoute exact path ="/logout"
+                token={this.state.token}
                 render={()=><Logout doLogout={this.doLogout}/>}/>
           </Switch>
         </Container>
