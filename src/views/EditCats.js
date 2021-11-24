@@ -3,6 +3,7 @@ import { getCategories, deleteCategory, putCategory } from '../api/apiCategory'
 import Button from 'react-bootstrap/Button'
 import {Formik, Form, Field} from 'formik';
 import * as Yup from 'yup';
+import {Redirect} from 'react-router-dom';
 
 const FormSchema = Yup.object().shape({
     "name":Yup.string().required("Required")
@@ -19,7 +20,9 @@ export default class EditCats extends Component {
             succesfulDelete:false,
             unsuccessfulDelete:false,
             tokenError:false,
-            serverErrorCats:false
+            serverErrorCats:false,
+            successfulPost:false,
+            unsuccessfulPost:false
 
         };
 
@@ -44,6 +47,15 @@ export default class EditCats extends Component {
         this.setState({category:newcat})
     }
 
+    handleSubmit=async (values)=>{
+        const res = await putCategory(localStorage.getItem('token'),this.state.category.id, values.name)
+        if (res){
+            this.setState({successfulPost:true, category:{}})
+        }else{
+            this.setState({unsuccessfulPost:true, category:{}})
+        }
+    }
+
     handleDeleteCategory=async()=>{
         if (window.confirm(`Are you sure you want to delete ${this.state.category.name}`)){
             const res= await deleteCategory(localStorage.getItem('token'), this.state.category.id)
@@ -60,6 +72,13 @@ export default class EditCats extends Component {
     render() {
         return (
             <div>
+            {this.state.successfulDelete?<small style={{color:"green"}}>Your Category Was Deleted</small>:""}
+            {this.state.unsuccessfulDelete?<small style={{color:"red"}}>Error Deleting Category, Please Try again</small>:""}
+            {this.state.successfulPost?<small style={{color:"green"}}>Your Category Was Modified</small>:""}
+            {this.state.unsuccessfulPost?<small style={{color:"red"}}>Error Modifing Category, Please Try again</small>:""}
+            {this.state.serverErrorCats?<small style={{color:"red"}}>Error try again later</small>:''}
+            {this.state.tokenError?<Redirect to='/login'/>:''}       
+
 
                 <br/>
                 <label htmlFor="cats" className="form-label">Choose Category to Edit</label>
@@ -88,7 +107,11 @@ export default class EditCats extends Component {
                         enableReinitialize
                         validationSchema={FormSchema}
                         onSubmit={
-                            (values)=>{console.log(values)}
+                            (values,{resetForm})=>{
+                                console.log(values);
+                                this.handleSubmit(values);
+                                resetForm({name:''});
+                            }
                         }>
                         {({ errors, touched })=>(
                             <Form>

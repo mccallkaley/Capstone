@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { Navigate } from 'react-router-dom'
-
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 export default class Logout extends Component {
+  componentDidMount() {
+    this.props.setToken("");
+  }
 
-    componentDidMount(){this.props.setToken('')}
-
-    render() {
-        return (
-            <div>
-                <Navigate to={{pathname : '/login'}}/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Redirect to={{ pathname: "/login" }} />
+      </div>
+    );
+  }
 }

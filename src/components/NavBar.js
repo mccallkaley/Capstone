@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Navbar, Container, Nav} from 'react-bootstrap'
+import {Navbar, Container, Nav, NavDropdown} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 
@@ -20,6 +20,19 @@ export default class NavBar extends Component {
                                 <Nav.Link as={Link} to="/page3">Page3</Nav.Link>
                                 <Nav.Link as={Link} to="/example">Example</Nav.Link>
                                 <Nav.Link as={Link} to="/logout">Logout</Nav.Link>
+                                {/* admin dropdown area */}
+                                {
+                                    this.props.isAdmin?
+                                    <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                                        <NavDropdown.Item as={Link} to="/createitems">Create Item</NavDropdown.Item>
+                                        <NavDropdown.Item as={Link} to="/edititems">Edit Itemsn</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item as={Link} to="/createcats">Create Category</NavDropdown.Item>
+                                        <NavDropdown.Item as={Link} to="/editcats">Edit Category</NavDropdown.Item>
+                                    </NavDropdown>
+                                    :''
+                                }
+                                {/* end admin dropdown */}
                             </>
                             :
                             <Nav.Link as={Link} to="/login">Login</Nav.Link>
