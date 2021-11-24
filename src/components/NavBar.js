@@ -25,7 +25,7 @@ export default class NavBar extends Component {
                                     this.props.isAdmin?
                                     <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                         <NavDropdown.Item as={Link} to="/createitems">Create Item</NavDropdown.Item>
-                                        <NavDropdown.Item as={Link} to="/edititems">Edit Itemsn</NavDropdown.Item>
+                                        <NavDropdown.Item as={Link} to="/edititems">Edit Items</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item as={Link} to="/createcats">Create Category</NavDropdown.Item>
                                         <NavDropdown.Item as={Link} to="/editcats">Edit Category</NavDropdown.Item>

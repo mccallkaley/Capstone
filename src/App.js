@@ -15,6 +15,9 @@ import { getIsAdmin } from "./api/apiAdmin";
 import AdminRoute from "./components/AdminRoute";
 import CreateCats from "./views/CreateCats";
 import EditCats from "./views/EditCats";
+import CreateItems from "./views/CreateItems";
+import EditItems from "./views/EditItems";
+
 import { Container } from 'react-bootstrap'
 
 export default class App extends Component {
@@ -89,6 +92,11 @@ export default class App extends Component {
                 render={()=><CreateCats/>} />
             <AdminRoute exact path ="/editcats" isAdmin={this.state.isAdmin} token={this.state.token} 
                 render={()=><EditCats/>} />
+
+            <AdminRoute exact path ="/createitems" isAdmin={this.state.isAdmin} token={this.state.token} 
+                render={()=><CreateItems/>} />
+            <AdminRoute exact path ="/edititems" isAdmin={this.state.isAdmin} token={this.state.token} 
+                render={()=><EditItems/>} />
 
  
             <Route exact path ="/login" 
