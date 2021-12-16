@@ -70,17 +70,22 @@ export default class Shop extends Component {
     render() {
         const styles = {
             catButton:{
-                backgroundColor: "white",
+                backgroundColor: "pink",
                 color:"black",
                 width: '100%',
                 border: '1px solid grey',
                 borderRadius: '15px',
                 marginBottom:'5px'
-            }
+            },
+            pageStyles:{
+                backgroundImage: "url('https://i.pinimg.com/originals/eb/a0/17/eba017eb313b5e9d02191baffdb2b978.jpg')",
+                backgroundColor: "beige",
+                
+            },
         }
 
         return (
-            <div>
+            <div style={styles.pageStyles} >
                 <Row>
                     <Col md={3}>
                         {/* category section */}
@@ -89,7 +94,7 @@ export default class Shop extends Component {
                         <ul style={{listStyleType:'none'}}>
                             {/* Come back to here */}
                             <li>
-                                <button style={styles.catButton} onClick={()=>this.handleCat(0)}>All Items</button>
+                            <button style={styles.catButton} onClick={()=>this.handleCat(0)}>All Items</button>
                             </li>
                             {this.state.categories.map(
                                 (c)=><li key={c.id}>
@@ -106,8 +111,8 @@ export default class Shop extends Component {
                                 .map((i)=><ItemCard addToCart={this.props.addToCart} item={i} key={i.id}/>)}
                         </Row>
                         <div className="d-flex justify-content-center">
-                            <Button variant="danger" className={"me-2 " + (this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>
-                            <Button variant="success" className={" " + (this.state.items?.length<=this.state.itemEnd?"disabled":'')} onClick={()=>this.handleNext()}>{"Next >>"}</Button>
+                            <Button style={styles.catButton} className={"me-2 " + (this.state.itemStart===0?"disabled":'')} onClick={()=>this.handlePrev()}>{"<< Prev"}</Button>
+                            <Button style={styles.catButton} className={" " + (this.state.items?.length<=this.state.itemEnd?"disabled":'')} onClick={()=>this.handleNext()}>{"Next >>"}</Button>
                         </div>
                     </Col>
 

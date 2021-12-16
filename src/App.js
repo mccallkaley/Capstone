@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import Home from "./views/Home";
-import Page2 from "./views/Page2";
+import Page2 from "./views/Register";
 import Page3 from "./views/Page3";
 import Login from "./views/Login";
 import Logout from "./views/Logout";
@@ -17,8 +17,15 @@ import CreateCats from "./views/CreateCats";
 import EditCats from "./views/EditCats";
 import CreateItems from "./views/CreateItems";
 import EditItems from "./views/EditItems";
+import Cart from "./views/Cart";
+import { Container } from 'react-bootstrap';
+import CheckoutSuccess from './views/CheckoutSuccess';
+import DashboardPage from "./views/DashboardPage";
+import Register from "./views/Register";
+import SocialFollow from "./components/SocialFollow";
 
-import { Container } from 'react-bootstrap'
+
+
 
 export default class App extends Component {
   constructor() {
@@ -163,10 +170,25 @@ export default class App extends Component {
                render={()=><Page3 user={this.state.user} foods={this.state.foods}/>} />
             <ProtectedRoute exact path ="/example" token={this.state.token} 
                 render={()=><Example/>} />
+            <ProtectedRoute exact path ="/dashboardpage" token={this.state.token} 
+                render={()=><DashboardPage/>} />
             <ProtectedRoute exact path ="/shop" token={this.state.token} 
                 render={()=><Shop addToCart={this.addToCart}/>} />
             <ProtectedRoute exact path ="/item/:id" token={this.state.token} 
                 render={(props)=><SingleItem {...props}/>} />
+
+            <ProtectedRoute exact path ="/cart" token={this.state.token} 
+                render={()=><Cart 
+                            cart={this.state.cart} 
+                            removeFromCart={this.removeFromCart} 
+                            removeAllFromCart={this.removeAllFromCart}
+                            getCartItemTotal={this.getCartItemTotal}
+                            getCartTotalPrice={this.getCartTotalPrice}
+                            />} />
+
+              <ProtectedRoute exact path ="/checkoutSuccess" token={this.state.token} 
+                render={()=><CheckoutSuccess clearCart={this.clearCart}/>} />
+           
            
             <AdminRoute exact path ="/createcats" isAdmin={this.state.isAdmin} token={this.state.token} 
                 render={()=><CreateCats/>} />
@@ -181,11 +203,16 @@ export default class App extends Component {
  
             <Route exact path ="/login" 
                 render={()=><Login setToken={this.setToken}/>} />
+            <Route exact path ="/socialfollow" 
+                render={()=><SocialFollow setToken={this.setToken}/>} />            
+            <Route exact path ="/register" 
+                render={()=><Register setToken={this.setToken}/>} />
             <ProtectedRoute exact path ="/logout"
                 token={this.state.token}
                 render={()=><Logout doLogout={this.doLogout}/>}/>
           </Switch>
         </Container>
+        <SocialFollow />
       </div>
     );
   }

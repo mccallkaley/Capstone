@@ -39,10 +39,15 @@ export default class Login extends Component {
   render() {
     const styles = {
       error: { color: "red" },
+      pageStyles:{
+        backgroundImage: "url('https://i.pinimg.com/originals/eb/a0/17/eba017eb313b5e9d02191baffdb2b978.jpg')",
+        backgroundColor: "beige",
+        
+    },
     };
 
     return (
-      <div>
+      <div style={styles.pageStyles}>
         {this.state.redirect ? (
           <Redirect
             to={{

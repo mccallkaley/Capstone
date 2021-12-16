@@ -23,7 +23,7 @@ export default class ItemCard extends Component {
         ) : (
           ""
         )}
-        <Card style={{ width: "150px", height: "400px", marginBottom: "25px" }}>
+        <Card style={{ width: "300px", height: "400px", marginBottom: "25px", backgroundColor: "mistyrose" }}>
           <Card.Img
             variant="top"
             style={{ height: "100px", objectFit: "contain" }}
@@ -48,13 +48,13 @@ export default class ItemCard extends Component {
               style={{
                 backgroundColor: "white",
                 border: "none",
-                color: "blue",
+                color: "deeppink",
               }}
               onClick={() => this.handleRenderItem()}
             >
               See More
             </button>
-            <Button variant="primary" onClick={()=>this.props.addToCart(this.props.item)}> Add To Cart</Button>
+            <Button style={{backgroundColor:"pink", border:'light blue', color:'deeppink'}}  onClick={()=>this.props.addToCart(this.props.item)}> Add To Cart</Button>
           </Card.Body>
         </Card>
       </Col>
